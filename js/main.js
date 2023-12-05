@@ -12,43 +12,11 @@ Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
 */
 
 // VARIABILI PREIMPOSTATE
-    // creo struttura HTML personalizzata con i riferimenti dell'array
-const postTemplate = `
-    <div class="post">
-        <div class="post__header">
-            <div class="post-meta">                    
-                <div class="post-meta__icon">
-                    <img class="profile-pic" src="${post.author.image || ''}" alt="${post.author.name}">
-                </div>
-                <div class="post-meta__data">
-                    <div class="post-meta__author">${post.author.name}</div>
-                    <div class="post-meta__time">${post.created}</div>
-                </div>                    
-            </div>
-        </div>
-        <div class="post__text">${post.content}</div>
-        <div class="post__image">
-            <img src="${post.media}" alt="${post.media}">
-        </div>
-        <div class="post__footer">
-            <div class="likes js-likes">
-                <div class="likes__cta">
-                    <a class="like-button js-like-button" href="#" data-postid="${post.id}">
-                        <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-                        <span class="like-button__label">Mi Piace</span>
-                    </a>
-                </div>
-                <div class="likes__counter">
-                    Piace a <b id="like-counter-${post.id}" class="js-likes-counter">${post.likes}</b> persone
-                </div>
-            </div> 
-        </div>
-    </div>
-`;
+    
     // recupero il container dall'HTML
 const container = document.getElementById("container");
 
-
+    // Arrey
 const posts = [
     {
         "id": 1,
@@ -110,6 +78,49 @@ const posts = [
 
 // MILESTONE 1
 
-// Scorro l'intero array con forEach
+// lancio la funzione per generare i post
+creaPosts(posts);
 
-// Aggiungo al container il template creato a inizo file
+
+
+// FUNZIONI
+function creaPosts(posts) {
+    // Scorro l'intero array con forEach
+    posts.forEach(post => {
+        // creo struttura HTML personalizzata con i riferimenti dell'array
+        const postTemplate = `
+        <div class="post">
+            <div class="post__header">
+                <div class="post-meta">                    
+                    <div class="post-meta__icon">
+                        <img class="profile-pic" src="${post.author.image || ''}" alt="${post.author.name}">
+                    </div>
+                    <div class="post-meta__data">
+                        <div class="post-meta__author">${post.author.name}</div>
+                        <div class="post-meta__time">${post.created}</div>
+                    </div>                    
+                </div>
+            </div>
+            <div class="post__text">${post.content}</div>
+            <div class="post__image">
+                <img src="${post.media}" alt="${post.media}">
+            </div>
+            <div class="post__footer">
+                <div class="likes js-likes">
+                    <div class="likes__cta">
+                        <a class="like-button js-like-button" href="#" data-postid="${post.id}">
+                            <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+                            <span class="like-button__label">Mi Piace</span>
+                        </a>
+                    </div>
+                    <div class="likes__counter">
+                        Piace a <b id="like-counter-${post.id}" class="js-likes-counter">${post.likes}</b> persone
+                    </div>
+                </div> 
+            </div>
+        </div>
+        `;
+    // Aggiungo al container il template creato a inizo file
+    container.innerHTML += postTemplate;
+    });
+}
