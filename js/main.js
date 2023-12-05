@@ -15,8 +15,13 @@ Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
     
     // recupero il container dall'HTML
 const container = document.getElementById("container");
+const likeButtons = document.querySelectorAll(".likebutton");
+
+console.log(container); 
+console.log(likeButtons); //Non recupera gli elementi
 
     // Arrey
+const likePosts = [];
 const posts = [
     {
         "id": 1,
@@ -28,8 +33,7 @@ const posts = [
         },
         "likes": 80,
         "created": "2021-06-25"
-    },
-    {
+    }, {
         "id": 2,
         "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
         "media": "https://unsplash.it/600/400?image=112",
@@ -39,8 +43,7 @@ const posts = [
         },
         "likes": 120,
         "created": "2021-09-03"
-    },
-    {
+    }, {
         "id": 3,
         "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
         "media": "https://unsplash.it/600/400?image=234",
@@ -50,8 +53,7 @@ const posts = [
         },
         "likes": 78,
         "created": "2021-05-15"
-    },
-    {
+    }, {
         "id": 4,
         "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
         "media": "https://unsplash.it/600/400?image=24",
@@ -61,8 +63,7 @@ const posts = [
         },
         "likes": 56,
         "created": "2021-04-03"
-    },
-    {
+    }, {
         "id": 5,
         "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
         "media": "https://unsplash.it/600/400?image=534",
@@ -81,12 +82,46 @@ const posts = [
 // lancio la funzione per generare i post
 creaPosts(posts);
 
+// MILESTONE 2
+
+// Aggiungi un ritardo di 100 millisecondi (puoi regolare questo valore)
+setTimeout(function() {
+    // Aggiungi un event listener a ciascun pulsante "Mi Piace"
+    likeButtons.forEach(function (likeButton) {
+        likeButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            console.log("Click su Mi Piace!", event.target.dataset.postid);
+            // Ottieni l'id del post dal dataset
+            const postId = event.target.dataset.postid;
+
+            // Se l'id non è presente nell'array dei post che hanno ricevuto like
+            if (!likePosts.includes(postId)) {
+                // Aggiungi l'id all'array
+                likePosts.push(postId);
+                console.log(likePosts);
+                // Aggiorna il colore del testo del pulsante
+                likeButton.classList.add('like-button--liked');
+
+                // Incrementa il contatore dei like
+                const likeCounter = document.getElementById(`like-counter-${postId}`);
+                likeCounter.textContent = parseInt(likeCounter.textContent) + 1;
+            }
+        });
+    });
+}, 100);
+
+
+
+
+console.log("Script loaded!");
+
 
 
 // FUNZIONI
 function creaPosts(posts) {
     // Scorro l'intero array con forEach
     posts.forEach(post => {
+
         // creo struttura HTML personalizzata con i riferimenti dell'array
         const postTemplate = `
         <div class="post">
@@ -109,7 +144,7 @@ function creaPosts(posts) {
                 <div class="likes js-likes">
                     <div class="likes__cta">
                         <a class="like-button js-like-button" href="#" data-postid="${post.id}">
-                            <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+                            <i class="likebutton__icon fas fa-thumbs-up" aria-hidden="true"></i>
                             <span class="like-button__label">Mi Piace</span>
                         </a>
                     </div>
