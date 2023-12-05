@@ -11,6 +11,39 @@ e incrementiamo il counter dei likes relativo.
 Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
 */
 
+// VARIABILI PREIMPOSTATE
+    // creo struttura HTML personalizzata con i riferimenti dell'array
+const postTemplate = `
+    <div class="post__header">
+        <div class="post-meta">                    
+            <div class="post-meta__icon">
+                <img class="profile-pic" src="${authorImage}" alt="${authorName}">
+            </div>
+            <div class="post-meta__data">
+                <div class="post-meta__author">${authorName}</div>
+                <div class="post-meta__time">${formattedDate}</div>
+            </div>                    
+        </div>
+    </div>
+    <div class="post__text">${postContent}</div>
+    <div class="post__image">
+        <img src="${postMedia}" alt="${postMedia}">
+    </div>
+    <div class="post__footer">
+        <div class="likes js-likes">
+            <div class="likes__cta">
+                <a class="like-button js-like-button" href="#" data-postid="${postId}">
+                    <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+                    <span class="like-button__label">Mi Piace</span>
+                </a>
+            </div>
+            <div class="likes__counter">
+                Piace a <b id="like-counter-${postId}" class="js-likes-counter">${likesCount}</b> persone
+            </div>
+        </div> 
+    </div>
+`;
+
 
 const posts = [
     {
