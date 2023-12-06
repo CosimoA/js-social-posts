@@ -15,10 +15,8 @@ Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
     
     // recupero il container dall'HTML
 const container = document.getElementById("container");
-const likeButtons = document.querySelectorAll(".like-button");
+// console.log(container); 
 
-console.log(container); 
-console.log(likeButtons); //Non recupera gli elementi
 
     // Arrey
 const likePosts = [];
@@ -73,8 +71,7 @@ const posts = [
         },
         "likes": 95,
         "created": "2021-03-05"
-    }
-];
+    }];
 
 
 // MILESTONE 1
@@ -83,36 +80,38 @@ const posts = [
 creaPosts(posts);
 
 // MILESTONE 2
+const likeButtons = document.querySelectorAll(".like-button");
+// console.log(likeButtons);
+
 
 // Aggiungi un event listener a ciascun pulsante "Mi Piace"
-likeButtons.forEach(function (likeButton) {
-    likeButton.addEventListener('click', function(event) {
-        // event.preventDefault();
-        // Ottieni l'id del post dal dataset
-        const postId = event.target.dataset.postid;
-        console.log("Click su Mi Piace!", event.target.dataset.postid);
-        
+likeButtons.forEach(likeButton =>  {
+    likeButton.addEventListener('click', 
+        function(event) {
+            // funzione che previene il ricaricamento della pagina quando click su un link
+            event.preventDefault();
+            
+            // Ottieni l'id del post dal dataset
+            const postId = likeButton.getAttribute("data-postid");
+                console.log("Click su Mi Piace!", postId);
+            
+            // Se l'id non è presente nell'array dei post che hanno ricevuto like
+            if (!likePosts.includes(postId)) {
+                // Aggiungi l'id all'array
+                likePosts.push(postId);
+                    console.log("Hai messo like ai post: " + likePosts);
+                // Aggiorna il colore del testo del pulsante
+                likeButton.classList.add('like-button--liked');
 
-        // Se l'id non è presente nell'array dei post che hanno ricevuto like
-        if (!likePosts.includes(postId)) {
-            // Aggiungi l'id all'array
-            likePosts.push(postId);
-            console.log(likePosts);
-            // Aggiorna il colore del testo del pulsante
-            likeButton.classList.add('like-button--liked');
-
-            // Incrementa il contatore dei like
-            const likeCounter = document.getElementById(`like-counter-${postId}`);
-            likeCounter.textContent = parseInt(likeCounter.textContent) + 1;
+                // Incrementa il contatore dei like
+                const likeCounter = document.getElementById(`like-counter-${postId}`);
+                likeCounter.textContent = parseInt(likeCounter.textContent) + 1;
+                    console.log("Il totale dei Like è di: " + likeCounter.textContent);
+            }
         }
-    });
+    )
 });
-
-
-
-console.log("Script loaded!");
-
-
+// console.log("Script loaded!");
 
 // FUNZIONI
 function creaPosts(posts) {
